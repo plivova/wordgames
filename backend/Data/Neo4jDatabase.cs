@@ -25,7 +25,6 @@ public class Neo4jDatabase(string uri, string user, string password) : IDisposab
             };
             
             const string query = """
-                                 
                                              MATCH (w:Word)
                                              WHERE all(letter IN split(w.text, '') WHERE letter IN $letters)
                                                  AND $centralLetter IN split(w.text, '')
@@ -52,7 +51,6 @@ public class Neo4jDatabase(string uri, string user, string password) : IDisposab
         return words;
     }
     
-
     public async Task Close() => await _driver.CloseAsync();
     public void Dispose() => _driver.Dispose();
 }

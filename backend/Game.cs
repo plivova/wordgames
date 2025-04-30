@@ -58,7 +58,6 @@ public class Game(MySQLDatabase mysqlDb, Neo4jDatabase neo4jDb)
             if (input == "exit")
             {
                 running = false;
-                break;
             }
 
             if (IsValidWord(input, letterSet.GetLetters(), letterSet.GetCentralLetter(), validWords))
