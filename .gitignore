@@ -568,3 +568,4 @@ sketch
 # End of https://www.toptal.com/developers/gitignore/api/nextjs,react,csharp,jetbrains
 
 .env
+backend/.idea/.idea.backend.dir/.idea/GraphDatabaseSupport_DataSourcesState.xml

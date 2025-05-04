@@ -1,8 +1,9 @@
 ﻿// Created by Kateřina Plívová on 28.07.2024.
 
+using WordGames.Data;
+
 namespace WordGames;
 
-using Data;
 using System.Threading.Tasks;
 
 public class Program
@@ -21,7 +22,7 @@ public class Program
         
         var game = new Game(mysqlDb, neo4jDb);
         await game.Start();
-        
+    
         await neo4jDb.Close();
     }
 }

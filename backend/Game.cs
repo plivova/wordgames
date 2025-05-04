@@ -32,17 +32,19 @@ public class Game(MySQLDatabase mysqlDb, Neo4jDatabase neo4jDb)
         {
             Console.WriteLine($"⚠️ Error: {ex.Message}");
         }
+        
     }
 
     private void PlayGame(LetterSet letterSet, char centralLetter, ICollection<string> validWords)
     {
         HashSet<string> foundWords = [];
+        var points = 0;
         var running = true;
 
         Console.WriteLine($"\n🎮 Game Started!");
         Console.WriteLine($"> Available letters: {string.Join(", ", letterSet.GetLetters())}");
         Console.WriteLine($"> Central letter: {centralLetter}");
-        Console.WriteLine($"(Type 'exit' to quit)\n");
+        Console.WriteLine("(Type 'exit' to quit)\n");
 
         while (running)
         {
@@ -55,16 +57,29 @@ public class Game(MySQLDatabase mysqlDb, Neo4jDatabase neo4jDb)
                 continue;
             }
 
-            if (input == "exit")
-            {
-                running = false;
-            }
-
             if (IsValidWord(input, letterSet.GetLetters(), letterSet.GetCentralLetter(), validWords))
             {
+                var isPangram = IsPangram(input, letterSet.GetLetters());
                 if (foundWords.Add(input))
                 {
-                    Console.WriteLine(IsPangram(input, letterSet.GetLetters()) ? "🌟 PANGRAM!" : "✅ Valid word!");
+                    Console.WriteLine(isPangram ? "🌟 PANGRAM!" : "✅ Valid word!");
+                    
+                    // Four-letter words score one point.
+                    // Longer words score as many points as they have letters (a six-letter word is worth six points).
+                    // Pangrams score the value of the word, plus seven points
+                    if (input.Length == 4)
+                    {
+                        points += 1;
+                    }
+                    else
+                    {
+                        if (isPangram)
+                        {
+                            points += 7;
+                        }
+                        points += input.Length;
+                    }
+                    Console.WriteLine("Points: " + points);
                 }
                 else
                 {
@@ -73,7 +88,14 @@ public class Game(MySQLDatabase mysqlDb, Neo4jDatabase neo4jDb)
             }
             else
             {
-                Console.WriteLine("❌ Invalid word! Try again.");
+                if (input == "exit")
+                {
+                    running = false;
+                }
+                else
+                { 
+                    Console.WriteLine("❌ Invalid word! Try again.");
+                }
             }
         }
 

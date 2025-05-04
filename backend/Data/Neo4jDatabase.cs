@@ -8,49 +8,56 @@ using Models;
 
 public class Neo4jDatabase(string uri, string user, string password) : IDisposable
 {
-    private readonly IDriver _driver = GraphDatabase.Driver(uri, AuthTokens.Basic(user, password));
+     IDriver _driver = GraphDatabase.Driver(uri,
+         AuthTokens.Basic(user, password));
 
-    public async Task<List<Word>> FindWordsForSet(string letters, char centralLetter)
-    {
-        var words = new List<Word>();
-        var session = _driver.AsyncSession();
+     public async Task<List<Word>> FindWordsForSet(string letters, char centralLetter)
+     {
+         var words = new List<Word>();
 
-        try
-        {
-            var letterList = letters.Select(c => c.ToString()).ToList();
-            var parameters = new Dictionary<string, object>
-            {
-                { "letters", letterList },
-                { "centralLetter", centralLetter.ToString() }
-            };
-            
-            const string query = """
-                                             MATCH (w:Word)
-                                             WHERE all(letter IN split(w.text, '') WHERE letter IN $letters)
-                                                 AND $centralLetter IN split(w.text, '')
-                                                 AND size(w.text) >= 4
-                                             RETURN w.text AS text, w.partOfSpeech AS partOfSpeech
-                                 """;
-            
-            var result = await session.RunAsync(query, parameters);
-            
-            
-            // TODO: RECORD IS NULL
-            await foreach (var record in result)
-            {
-                words.Add(new Word(0, record["text"].As<string>(), record["partOfSpeech"].As<string>()));
-            }
+         var letterList = letters.Select(c => c.ToString()).ToList();
+         var parameters = new Dictionary<string, object>
+         {
+             { "letters", letterList },
+             { "centralLetter", centralLetter.ToString() }
+         };
 
-            Console.WriteLine($"✅ Found {words.Count} words.");
-        }
-        finally
-        {
-            await session.CloseAsync();
-        }
+         Console.WriteLine("Running query with:");
+         Console.WriteLine($"letters: {string.Join(", ", letterList)}");
+         Console.WriteLine($"centralLetter: {centralLetter}");
 
-        return words;
-    }
-    
-    public async Task Close() => await _driver.CloseAsync();
-    public void Dispose() => _driver.Dispose();
+         const string query = """
+                                  MATCH (w:Word)
+                                  WHERE all(letter IN split(toLower(w.text), '') WHERE letter IN $letters)
+                                    AND $centralLetter IN split(toLower(w.text), '')
+                                    AND size(w.text) >= 4
+                                  RETURN w.text AS text, w.partOfSpeech AS partOfSpeech
+                              """;
+
+         await using var session = _driver.AsyncSession();
+
+         try
+         {
+             var result = await session.ExecuteReadAsync(async tx =>
+             {
+                 var cursor = await tx.RunAsync(query, parameters);
+                 return await cursor.ToListAsync();
+             });
+
+             words.AddRange(result.Select(record =>
+                 new Word(0, record["text"].As<string>(), record["partOfSpeech"].As<string>())));
+
+             Console.WriteLine($"✅ Found {words.Count} words.");
+         }
+         finally
+         {
+
+             await session.CloseAsync();
+         }
+
+         return words;
+     }
+     
+     public async Task Close() => await _driver.CloseAsync();
+     public void Dispose() => _driver.Dispose();
 }
