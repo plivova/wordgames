@@ -7,7 +7,7 @@ export function useGameDetail() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [detail, setDetail] = useState('');
-    const [image, setImage] = useState('');
+    const [image, setImage] = useState(null as string | null | undefined);
 
     useEffect(() => {
         if (!pathname) return;

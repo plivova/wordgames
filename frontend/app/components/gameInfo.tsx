@@ -38,8 +38,7 @@ export function GameInfo() {
                 </button>
             </div>
 
-            <div
-                data-popover
+            <div data-popover
                 id="popover-description"
                 role="tooltip"
                 className="absolute z-10 invisible inline-block w-72 rounded-lg border border-gray-200 bg-white p-3 text-sm text-white opacity-0 shadow-xs transition-opacity duration-300 dark:border-light dark:bg-light dark:text-gray-700"

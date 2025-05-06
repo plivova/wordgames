@@ -20,10 +20,11 @@ export const gameDetails: Record<string, { title: string; description: string, d
         description:
             'Je zadáno dvanáct písmen na čtverci. Utvářejte z nich slova tak, abyste postupně použilx všechna písmena. ' +
             'Slovo musí začínat koncovým písmenem slova předchozího. ' +
-            'Dvě po sobě jdoucí písmena nemohou náležet stejné straně čtverce.'
+            'Dvě po sobě jdoucí písmena nemohou náležet stejné straně čtverce. '
         ,
         detail:
-            ':0'
+            'Slovník neobsahuje vulgární a obskurní slova ani vlastní jména. ' +
+            ''
         ,
         image: '/letter-boxed.png',
     },
