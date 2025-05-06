@@ -79,7 +79,7 @@ public class Game(MySQLDatabase mysqlDb, Neo4jDatabase neo4jDb)
                         }
                         points += input.Length;
                     }
-                    Console.WriteLine("Points: " + points);
+                    Console.WriteLine("🧮 Points: " + points);
                 }
                 else
                 {

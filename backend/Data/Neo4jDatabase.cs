@@ -22,10 +22,6 @@ public class Neo4jDatabase(string uri, string user, string password) : IDisposab
              { "centralLetter", centralLetter.ToString() }
          };
 
-         Console.WriteLine("Running query with:");
-         Console.WriteLine($"letters: {string.Join(", ", letterList)}");
-         Console.WriteLine($"centralLetter: {centralLetter}");
-
          const string query = """
                                   MATCH (w:Word)
                                   WHERE all(letter IN split(toLower(w.text), '') WHERE letter IN $letters)
@@ -47,7 +43,6 @@ public class Neo4jDatabase(string uri, string user, string password) : IDisposab
              words.AddRange(result.Select(record =>
                  new Word(0, record["text"].As<string>(), record["partOfSpeech"].As<string>())));
 
-             Console.WriteLine($"✅ Found {words.Count} words.");
          }
          finally
          {
