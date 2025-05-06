@@ -37,7 +37,7 @@ export function GameDetailModal({isOpen, onClose}: GameDetailModalProps) {
                         leaveTo="opacity-0 scale-95"
                     >
                         <Dialog.Panel
-                            className="w-1/2 fixed transform overflow-hidden rounded-2xl bg-white p-6 shadow-xl transition-all"
+                            className="w-1/3 fixed transform overflow-hidden rounded-2xl bg-white p-6 shadow-xl transition-all"
                         >
                             <button
                                 onClick={onClose}
@@ -49,7 +49,10 @@ export function GameDetailModal({isOpen, onClose}: GameDetailModalProps) {
 
                             <div>
                                 <h2 className="text-xl font-bold mb-2">🎲 Jak hrát?</h2>
-                                <p>{description}</p>
+                                <div className="flex justify-center items-center">
+                                    <img className="w-1/4 m-2" src={image} alt="game image"/>
+                                    <p className="ml-2">{description}</p>
+                                </div>
                                 <p>{detail}</p>
                             </div>
 
