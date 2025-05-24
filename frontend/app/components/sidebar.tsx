@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {Home, LogIn} from 'lucide-react';
+import { Home, LogIn, Trophy } from 'lucide-react';
 import { useState } from "react";
 import LoginModal from "@/app/components/loginModal";
 
@@ -16,6 +16,7 @@ export function Sidebar() {
 
     const links = [
         { href: '/dashboard', label: 'Hlavní stránka', icon: Home },
+        { href: '/dashboard/scores', label: 'Výsledky', icon: Trophy },
         { label: 'Přihlášení', icon: LogIn, action: handleLogin },
     ];
 

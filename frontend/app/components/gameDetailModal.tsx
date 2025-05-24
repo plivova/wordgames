@@ -50,7 +50,7 @@ export function GameDetailModal({isOpen, onClose}: GameDetailModalProps) {
                             <div>
                                 <h2 className="text-xl font-bold mb-2">🎲 Jak hrát?</h2>
                                 <div className="flex justify-center items-center">
-                                    <img className="w-1/4 m-2" src={image} alt="game image"/>
+                                    <img className="w-1/4 m-2" src={image || undefined} alt="game image"/>
                                     <p className="ml-2">{description}</p>
                                 </div>
                                 <p>{detail}</p>

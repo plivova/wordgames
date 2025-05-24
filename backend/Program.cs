@@ -22,7 +22,8 @@ public class Program
         
         var game = new Game(mysqlDb, neo4jDb);
         await game.Start();
-    
+        
         await neo4jDb.Close();
+        
     }
 }

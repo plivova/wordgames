@@ -1,8 +1,8 @@
 'use client'
 
-import {WordOfTheDay} from "@/app/components/wordOfTheDay";
-import {GameCard} from "@/app/components/gameCard";
-import {gameDetails} from "@/app/lib/gameDetails";
+import { WordOfTheDay } from "@/app/components/wordOfTheDay";
+import { GameCard } from "@/app/components/gameCard";
+import { gameDetails } from "@/app/lib/gameDetails";
 
 export default function DashboardPage() {
     return (
