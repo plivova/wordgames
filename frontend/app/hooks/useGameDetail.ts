@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { gameDetails } from "@/app/lib/gameDetails";
 import { usePathname } from "next/navigation";
 
-export function useGameDetail() {
+export function UseGameDetail() {
     const pathname = usePathname();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');

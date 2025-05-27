@@ -1,7 +1,7 @@
-import {Dialog, Transition} from "@headlessui/react";
-import {Fragment} from "react";
-import {X} from "lucide-react";
-import {useGameDetail} from "@/app/hooks/useGameDetail";
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
+import { X } from "lucide-react";
+import { UseGameDetail } from "@/app/hooks/useGameDetail";
 
 type GameDetailModalProps = {
     isOpen: boolean;
@@ -9,7 +9,7 @@ type GameDetailModalProps = {
 };
 
 export function GameDetailModal({isOpen, onClose}: GameDetailModalProps) {
-    const { description, detail, image } = useGameDetail()
+    const { description, detail, image } = UseGameDetail()
 
     return (
         <Transition appear show={isOpen} as={Fragment}>

@@ -7,9 +7,13 @@ export function UseInitPopovers() {
     const pathname = usePathname();
 
     useEffect(() => {
-        import('flowbite').then(({ initPopovers }) => {
-            initPopovers();
-        });
+        const timeout = setTimeout(() => {
+            import('flowbite').then(({ initPopovers }) => {
+                initPopovers();
+            });
+        }, 50); // slight delay to ensure the DOM is ready
+
+        return () => clearTimeout(timeout);
     }, [pathname]);
 
     return null;

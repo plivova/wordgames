@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { GameDetailModal } from "@/app/components/gameDetailModal";
-import { useGameDetail } from "@/app/hooks/useGameDetail";
+import { UseGameDetail } from "@/app/hooks/useGameDetail";
+import { UseInitPopovers } from "@/app/hooks/useInitPopovers";
 
 export function GameInfo() {
-    const { title, description } = useGameDetail()
+    const { title, description } = UseGameDetail()
 
     const [isGameDetailLoginOpen, setIsGameDetailLoginOpen] = useState(false);
+
+    UseInitPopovers();
 
     const handleGameDetail = () => {
         setIsGameDetailLoginOpen(true);
