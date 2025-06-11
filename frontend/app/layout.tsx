@@ -24,9 +24,9 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
         <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-        <div className="flex min-h-screen"> {/* Full-height flex container */}
+        <div className="flex flex-col md:flex-row min-h-screen">
             <Sidebar />
-            <main className="flex-1 ml-64 p-6"> {/* Sidebar width + padding */}
+            <main className="flex-1 ml-64 p-4 md:p-6"> {/* Sidebar width + padding */}
                 {children}
             </main>
         </div>

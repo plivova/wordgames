@@ -1,23 +1,25 @@
-import { useState } from 'react';
 import { GameDetailModal } from "@/app/components/gameDetailModal";
 import { UseGameDetail } from "@/app/hooks/useGameDetail";
 import { UseInitPopovers } from "@/app/hooks/useInitPopovers";
 
-export function GameInfo() {
-    const { title, description } = UseGameDetail()
+type GameInfoProps = {
+    isModalOpen: boolean;
+    setModalOpen: (open: boolean) => void;
+};
 
-    const [isGameDetailLoginOpen, setIsGameDetailLoginOpen] = useState(false);
+export function GameInfo({ isModalOpen, setModalOpen }: GameInfoProps) {
+    const { title, description } = UseGameDetail()
 
     UseInitPopovers();
 
     const handleGameDetail = () => {
-        setIsGameDetailLoginOpen(true);
-    }
+        setModalOpen(true);
+    };
 
     return (
         <div className="relative ml-4 mt-8">
-            <div className="flex items-center text-3xl text-black dark:text-black">
-                <h1>{title}</h1>
+            <div className="flex items-center text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-black dark:text-black">
+                <h1 className="">{title}</h1>
                 <button
                     data-popover-target="popover-description"
                     data-popover-placement="bottom"
@@ -72,11 +74,8 @@ export function GameInfo() {
                         </svg>
                     </a>
                 </div>
-                {isGameDetailLoginOpen && (
-                    <GameDetailModal
-                        isOpen={isGameDetailLoginOpen}
-                        onClose={() => setIsGameDetailLoginOpen(false)}
-                    />
+                {isModalOpen && (
+                    <GameDetailModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
                 )}
             </div>
         </div>
