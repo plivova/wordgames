@@ -14,6 +14,7 @@ const hexCoords = [
 
 type HoneycombProps = {
     letters?: string[];
+    onLetterClick: (letter: string) => void;
 };
 
 function hexToPixel({ q, r }: { q: number; r: number }): { x: number; y: number } {
@@ -22,7 +23,7 @@ function hexToPixel({ q, r }: { q: number; r: number }): { x: number; y: number 
     return { x, y };
 }
 
-export default function Honeycomb({ letters = [] }: HoneycombProps) {
+export default function Honeycomb({ letters = [], onLetterClick }: HoneycombProps) {
     return (
         <div>
             <svg width="300" height="300" viewBox="-170 -150 350 350">
@@ -35,7 +36,7 @@ export default function Honeycomb({ letters = [] }: HoneycombProps) {
                             y={y}
                             letter={letters[i]}
                             isCenter={i === 3}
-                            onClick={() => console.log('Clicked', letters[i])}
+                            onClick={() => onLetterClick?.(letters[i])}
                         />
                     );
                 })}

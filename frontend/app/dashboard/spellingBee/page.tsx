@@ -60,19 +60,50 @@ export default function SpellingBeePage() {
         const inputEvent = e.nativeEvent as unknown as InputEvent;
         const inputChar = inputEvent.data;
 
-        // Block any non-letter characters or if over length
-        if (!inputChar || !/^[A-Za-zÁČĎÉĚÍŇÓŘŠŤÚŮÝŽáčďéěíňóřšťúůýž]$/.test(inputChar) || input.length >= 12) {
-            e.preventDefault();
+        if (!inputChar || !/^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]$/i.test(inputChar)) {
+            e.preventDefault(); // Disallow invalid character
+            return;
         }
+
+        if (input.length >= 12) {
+            e.preventDefault(); // Prevent overflow
+            return;
+        }
+
+        addLetter(inputChar);
+        e.preventDefault(); // Prevent native update
+    };
+
+    const addLetter = (char: string) => {
+        const upperChar = char.toUpperCase();
+        if (!/^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]$/.test(upperChar)) return;
+        if (input.length >= 12) return;
+
+        setInput((prev) => (prev + upperChar).slice(0, 12));
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const sanitized = e.target.value
-            .toUpperCase()
-            .replace(/[^A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]/gi, '')
-            .slice(0, 12);
+        const raw = e.target.value.toUpperCase();
+        let newInput = '';
+        for (let i = 0; i < raw.length; i++) {
+            const char = raw[i];
+            if (/^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]$/.test(char) && newInput.length < 12) {
+                newInput += char;
+            }
+        }
+        setInput(newInput);
+    };
 
-        setInput(sanitized);
+    // Custom handling backspace and enter buttons
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Backspace') {
+            setInput((prev) => prev.slice(0, -1));
+            e.preventDefault();
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            // TODO: Submit logic
+            console.log('Submitted input:', input);
+        }
     };
 
     if (error) return <p className="text-red-500">{error}</p>;
@@ -84,13 +115,14 @@ export default function SpellingBeePage() {
                       setModalOpen={setIsGameDetailModalOpen}/>
             <div className="max-w-sm flex flex-col items-center space-y-2 mt-16">
                 {/* Hidden input */}
-                    <input name="userInput"
-                           autoFocus
-                           ref={inputRef}
-                           onChange={handleChange}
-                           onBeforeInput={handleBeforeInput}
-                           className="absolute opacity-0 pointer-events-none"
-                    />
+                <input name="userInput"
+                       autoFocus
+                       ref={inputRef}
+                       onChange={handleChange}
+                       onBeforeInput={handleBeforeInput}
+                       onKeyDown={handleKeyDown}
+                       className="absolute opacity-0 pointer-events-none"
+                />
                 {/* Custom visual display */}
                 <div
                     className="min-h-[40px] text-3xl font-bold tracking-wider cursor-text text-center"
@@ -114,16 +146,16 @@ export default function SpellingBeePage() {
                     {/* Placeholder if input is empty */}
                     {input.length === 0 ? (
                         <>
-                        <span className="blinking-cursor text-primary font-light select-none">|</span>
-                        <span className="text-slate-400 font-light text-xl">Začněte psát</span>
+                            <span className="blinking-cursor text-primary font-light select-none">|</span>
+                            <span className="text-slate-400 font-light text-xl">Začněte psát</span>
                         </>
                     ) : (
-                         // Blinking cursor
+                        // Blinking cursor
                         <span className="blinking-cursor text-primary font-light select-none">|</span>
                     )}
                 </div>
                 {/* Honeycomb */}
-                <Honeycomb letters={orderedLetters} />
+                <Honeycomb letters={orderedLetters} onLetterClick={addLetter}/>
             </div>
         </div>
     );

@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "./components/sidebar";
 import { UseInitPopovers } from "@/app/hooks/useInitPopovers";
+import { Toaster } from "react-hot-toast";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +30,7 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
             <Sidebar />
             <main className="flex-1 ml-64 p-4 md:p-6"> {/* Sidebar width + padding */}
                 {children}
+                <Toaster />
             </main>
         </div>
         <UseInitPopovers />

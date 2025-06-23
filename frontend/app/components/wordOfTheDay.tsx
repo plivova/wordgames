@@ -1,5 +1,30 @@
+'use client'
+import {useCallback, useEffect, useState} from "react";
+import {getWord} from "@/app/repositories/gamesRepository";
+import toast from "react-hot-toast";
+
+export type WordViewData = {
+    id: string;
+    text: string;
+    partOfSpeech: string;
+}
+
 export function WordOfTheDay() {
     const date = new Date();
+    const [word, setWord] = useState<WordViewData>();
+
+    const fetchWord = useCallback(async () => {
+        try {
+            const wordData = await getWord("1050")
+            setWord(wordData);
+        } catch {
+            toast.error("Failed to load word of the day!");
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchWord();
+    }, [fetchWord]);
 
     return (
         <div className="flex justify-center items-center">
@@ -14,8 +39,8 @@ export function WordOfTheDay() {
                         </div>
                         <div className="mb-3 font-normal">
                             {/*TODO: fetch word of the day & part of speech from db*/}
-                            <div className="m-2 text-2xl font-bold tracking-tight">Dortík</div>
-                            <div className="text-sm">podstatné jméno</div>
+                            <div className="m-2 text-2xl font-bold tracking-tight">{word?.text}</div>
+                            <div className="text-sm">{word?.partOfSpeech}</div>
                         </div>
                     </div>
                 </div>

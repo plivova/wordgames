@@ -17,7 +17,6 @@ export default function Hexagon({ x, y, letter, onClick, isCenter }: HexagonProp
         const py = y + HEX_SIZE * Math.sin(angle);
         return `${px},${py}`;
     }).join(' ');
-
     return (
         <g onClick={onClick} className="hex" style={{ cursor: 'pointer' }}>
             <polygon
