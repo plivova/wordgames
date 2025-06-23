@@ -31,7 +31,7 @@ export default function SpellingBeePage() {
     const allowedLetters = letterSet?.letters.toUpperCase().split('') ?? [];
 
     useEffect(() => {
-        apiInstance.get<LetterSet>('/SpellingBee/random-letter-set')
+        apiInstance.get<LetterSet>('/LetterSets/random-letter-set')
             .then((res) => setLetterSet(res.data))
             .catch((err) => {
                 console.error('Error fetching letter set:', err);
