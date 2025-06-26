@@ -2,22 +2,15 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, LogIn, Trophy } from 'lucide-react';
-import { useState } from "react";
-import LoginModal from "@/app/components/loginModal";
+import { Home, Trophy } from 'lucide-react';
 
 export function Sidebar() {
     const pathname = usePathname(); // Client Component hook that lets you read the current URL's pathname.
-    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-    const handleLogin = () => {
-        setIsLoginModalOpen(true);
-    }
 
     const links = [
         { href: '/dashboard', label: 'Hlavní stránka', icon: Home },
         { href: '/dashboard/scores', label: 'Výsledky', icon: Trophy },
-        { label: 'Přihlášení', icon: LogIn, action: handleLogin },
     ];
 
     return (
@@ -37,34 +30,18 @@ export function Sidebar() {
                    aria-label="Sidebar">
                 <div className="h-full px-3 py-4 overflow-y-auto bg-primary dark:primary">
 
-                    {/*TODO: letter and name based on the logged-in user*/}
-
                     <div className="flex items-center ps-2.5 mb-5">
                         <div
                             className="mr-2 relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-white p-5">
-                            <span className="font-medium text-primary dark:text-primary text-2xl">A</span>
+                            <span className="font-medium text-primary dark:text-primary text-2xl">SH</span>
                         </div>
                         <span
-                            className="self-center text-l font-semibold whitespace-nowrap dark:text-white">Anonymní uživatel</span>
+                            className="self-center text-l font-semibold whitespace-nowrap dark:text-white">Slovní hry</span>
                     </div>
 
                     {links.map((link) => {
                         const LinkIcon = link.icon;
                         const isActive = pathname === link.href;
-
-                        if (link.action) {
-                            const ButtonIcon = link.icon;
-                            return (
-                                <button
-                                    key={link.label}
-                                    onClick={link.action}
-                                    className="flex cursor-pointer items-center space-x-2 px-4 py-2 mb-1 rounded-full text-sm font-medium transition-colors duration-200 text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-secondary w-full text-left"
-                                >
-                                    {ButtonIcon && <ButtonIcon className="w-5 h-5"/>}
-                                    <span className="hidden md:inline">{link.label}</span>
-                                </button>
-                            );
-                        }
 
                         return (
                             <div key={link.label}>
@@ -85,16 +62,6 @@ export function Sidebar() {
                     })}
                 </div>
             </aside>
-
-            {/*TODO: modal functionality for logging in / signing up*/}
-            {isLoginModalOpen && (
-                <LoginModal
-                    isOpen={isLoginModalOpen}
-                    // movie={selectedMovie}
-                    // onAdd={() => setIsDiaryModalOpen(false)}
-                    onClose={() => setIsLoginModalOpen(false)}
-                />
-            )}
         </div>
     );
 }

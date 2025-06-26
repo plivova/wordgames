@@ -9,7 +9,7 @@ export const gameDetails: Record<string, { title: string; description: string, d
         detail:
             'Slovník neobsahuje vulgární a obskurní slova ani vlastní jména. ' +
             'Slova tvořena čtyřmi písmeny jsou za jeden bod. ' +
-            'Delší slova mají bodovou hodnotu dle své délky (př. slovo tvořeno šesti písmeny má hodnotu 6 bodů. ' +
+            'Delší slova mají bodovou hodnotu dle své délky (př. slovo tvořeno šesti písmeny má hodnotu 6 bodů). ' +
             'Každý set písmen obsahuje alespoň jeden "pangram", neboli slovo, které využívá všechna písmena. ' +
             'Takové slovo poté k hodnotě dle své délky navíc přidává 7 bodů.'
             ,

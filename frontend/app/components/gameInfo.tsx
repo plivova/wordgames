@@ -1,3 +1,5 @@
+'use client'
+
 import { GameDetailModal } from "@/app/components/gameDetailModal";
 import { UseGameDetail } from "@/app/hooks/useGameDetail";
 import { UseInitPopovers } from "@/app/hooks/useInitPopovers";

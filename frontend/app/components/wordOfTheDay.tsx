@@ -1,6 +1,6 @@
 'use client'
-import {useCallback, useEffect, useState} from "react";
-import {getWord} from "@/app/repositories/gamesRepository";
+import { useCallback, useEffect, useState } from "react";
+import { getWordOfTheDay } from "@/app/repositories/gamesRepository";
 import toast from "react-hot-toast";
 
 export type WordViewData = {
@@ -15,10 +15,10 @@ export function WordOfTheDay() {
 
     const fetchWord = useCallback(async () => {
         try {
-            const wordData = await getWord("1050")
+            const wordData = await getWordOfTheDay();
             setWord(wordData);
         } catch {
-            toast.error("Failed to load word of the day!");
+            toast.error("Failed to load word of the day");
         }
     }, []);
 

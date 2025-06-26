@@ -1,22 +1,27 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import { apiInstance } from "@/app/api/axiosInstance";
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { GameInfo } from "@/app/components/gameInfo";
 import Honeycomb from "@/app/components/honeycomb";
+import { getRandomLetterSet, getWordListForLetterSet } from "@/app/repositories/gamesRepository";
+import toast from "react-hot-toast";
+import { WordViewData } from "@/app/components/wordOfTheDay";
+import WordsDisplay from "@/app/components/wordsDisplay";
 
-type LetterSet = {
+export type LetterSetViewData = {
     id: number;
     letters: string;
     centralLetter: string;
 };
 
 export default function SpellingBeePage() {
-    const [letterSet, setLetterSet] = useState<LetterSet | null>(null);
+    const [letterSet, setLetterSet] = useState<LetterSetViewData | null>(null);
     const [input, setInput] = useState('');
     const inputRef = useRef<HTMLInputElement>(null);
     const [error, setError] = useState<string | null>(null);
     const [isGameDetailModalOpen, setIsGameDetailModalOpen] = useState(false);
+    const [wordListForSet, setWordListForSet] = useState<WordViewData[] | null>(null);
+    const [foundWords, setFoundWords] = useState<string[]>([]);
 
     const orderedLetters = letterSet ? (() => {
         const allLetters = letterSet.letters.toUpperCase().split('');
@@ -30,14 +35,36 @@ export default function SpellingBeePage() {
     const centralLetter = letterSet?.centralLetter.toUpperCase() ?? '';
     const allowedLetters = letterSet?.letters.toUpperCase().split('') ?? [];
 
-    useEffect(() => {
-        apiInstance.get<LetterSet>('/LetterSets/random-letter-set')
-            .then((res) => setLetterSet(res.data))
-            .catch((err) => {
-                console.error('Error fetching letter set:', err);
-                setError('Failed to load data.');
-            });
+    // Fetch a random letter set
+    const fetchLetters = useCallback(async () => {
+        try {
+            const lettersData = await getRandomLetterSet();
+            setLetterSet(lettersData);
+        } catch {
+            toast.error("Failed to load letter set");
+        }
     }, []);
+
+    useEffect(() => {
+        fetchLetters();
+    }, [fetchLetters]);
+
+    // Fetch words that can be created with the given letter set
+    const fetchWordList = useCallback(async () => {
+        if (!letterSet?.letters || !centralLetter) return;
+
+        try {
+            const words = await getWordListForLetterSet(letterSet.letters, centralLetter);
+            setWordListForSet(words);
+        } catch (err) {
+            console.error("Failed to fetch word list:", err);
+            toast.error("Failed to load word list:.");
+        }
+    }, [letterSet, centralLetter]);
+
+    useEffect(() => {
+        fetchWordList();
+    }, [fetchWordList, letterSet, centralLetter]);
 
     useEffect(() => {
         if (!isGameDetailModalOpen) {
@@ -99,10 +126,24 @@ export default function SpellingBeePage() {
         if (e.key === 'Backspace') {
             setInput((prev) => prev.slice(0, -1));
             e.preventDefault();
+        //     TODO: properly handle
         } else if (e.key === 'Enter') {
-            e.preventDefault();
-            // TODO: Submit logic
-            console.log('Submitted input:', input);
+            const normalizedInput = input.toLowerCase().trim();
+            if (!normalizedInput || !wordListForSet) return;
+
+            const alreadyFound = foundWords.includes(normalizedInput);
+            const isValid = wordListForSet.some(word => word.text.toLowerCase() === normalizedInput);
+
+            if (alreadyFound) {
+                toast("Toto slovo jste už našli.", { icon: "🟡" });
+            } else if (isValid) {
+                setFoundWords(prev => [...prev, normalizedInput]);
+                toast.success("Správně!");
+            } else {
+                toast.error("Špatné slovo.");
+            }
+
+            setInput('');
         }
     };
 
@@ -113,50 +154,54 @@ export default function SpellingBeePage() {
         <div className="p-4">
             <GameInfo isModalOpen={isGameDetailModalOpen}
                       setModalOpen={setIsGameDetailModalOpen}/>
-            <div className="max-w-sm flex flex-col items-center space-y-2 mt-16">
-                {/* Hidden input */}
-                <input name="userInput"
-                       autoFocus
-                       ref={inputRef}
-                       onChange={handleChange}
-                       onBeforeInput={handleBeforeInput}
-                       onKeyDown={handleKeyDown}
-                       className="absolute opacity-0 pointer-events-none"
-                />
-                {/* Custom visual display */}
-                <div
-                    className="min-h-[40px] text-3xl font-bold tracking-wider cursor-text text-center"
-                    onClick={() => inputRef.current?.focus()}
-                >
-                    {input.split('').map((char, index) => {
-                        const isCentral = char === centralLetter;
-                        const isValid = allowedLetters.includes(char);
-                        const colorClass = isCentral
-                            ? 'text-primary'
-                            : isValid
-                                ? 'text-black'
-                                : 'text-slate-400';
+            <div className="flex flex-col items-center mt-16 space-y-4 md:flex-row md:space-y-0 md:space-x-8">
+                {/* Honeycomb + Input Display */}
+                <div className="flex flex-col items-center space-y-2">
+                    {/* Hidden input and visual display */}
+                    <input name="userInput"
+                           autoFocus
+                           ref={inputRef}
+                           onChange={handleChange}
+                           onBeforeInput={handleBeforeInput}
+                           onKeyDown={handleKeyDown}
+                           className="absolute opacity-0 pointer-events-none"
+                    />
+                    <div
+                        className="min-h-[40px] text-3xl font-bold tracking-wider cursor-text text-center"
+                        onClick={() => inputRef.current?.focus()}
+                    >
+                        {input.split('').map((char, index) => {
+                            const isCentral = char === centralLetter;
+                            const isValid = allowedLetters.includes(char);
+                            const colorClass = isCentral
+                                ? 'text-primary'
+                                : isValid
+                                    ? 'text-black'
+                                    : 'text-slate-400';
 
-                        return (
-                            <span key={index} className={colorClass}>
-                                {char}
-                            </span>
-                        );
-                    })}
-                    {/* Placeholder if input is empty */}
-                    {input.length === 0 ? (
-                        <>
+                            return (
+                                <span key={index} className={colorClass}>
+                        {char}
+                    </span>
+                            );
+                        })}
+                        {input.length === 0 ? (
+                            <>
+                                <span className="blinking-cursor text-primary font-light select-none">|</span>
+                                <span className="text-slate-400 font-light text-xl">Začněte psát</span>
+                            </>
+                        ) : (
                             <span className="blinking-cursor text-primary font-light select-none">|</span>
-                            <span className="text-slate-400 font-light text-xl">Začněte psát</span>
-                        </>
-                    ) : (
-                        // Blinking cursor
-                        <span className="blinking-cursor text-primary font-light select-none">|</span>
-                    )}
+                        )}
+                    </div>
+
+                    <Honeycomb letters={orderedLetters} onLetterClick={addLetter}/>
                 </div>
-                {/* Honeycomb */}
-                <Honeycomb letters={orderedLetters} onLetterClick={addLetter}/>
+
+                {/* Found Words */}
+                <WordsDisplay words={foundWords} />
             </div>
+
         </div>
     );
 }
