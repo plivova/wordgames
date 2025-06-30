@@ -22,6 +22,7 @@ export default function SpellingBeePage() {
     const [isGameDetailModalOpen, setIsGameDetailModalOpen] = useState(false);
     const [wordListForSet, setWordListForSet] = useState<WordViewData[] | null>(null);
     const [foundWords, setFoundWords] = useState<string[]>([]);
+    const [points, setPoints] = useState<number>(0);
 
     const orderedLetters = letterSet ? (() => {
         const allLetters = letterSet.letters.toUpperCase().split('');
@@ -126,7 +127,6 @@ export default function SpellingBeePage() {
         if (e.key === 'Backspace') {
             setInput((prev) => prev.slice(0, -1));
             e.preventDefault();
-        //     TODO: properly handle
         } else if (e.key === 'Enter') {
             const normalizedInput = input.toLowerCase().trim();
             if (!normalizedInput || !wordListForSet) return;
@@ -134,11 +134,30 @@ export default function SpellingBeePage() {
             const alreadyFound = foundWords.includes(normalizedInput);
             const isValid = wordListForSet.some(word => word.text.toLowerCase() === normalizedInput);
 
+            const isPangram = allowedLetters.every(letter =>
+                normalizedInput.includes(letter.toLowerCase())
+            );
+
             if (alreadyFound) {
                 toast("Toto slovo jste už našli.", { icon: "🟡" });
+
             } else if (isValid) {
                 setFoundWords(prev => [...prev, normalizedInput]);
-                toast.success("Správně!");
+
+                // Setting points
+                if(normalizedInput.length == 4) {
+                    setPoints(prev => prev + 1)
+                } else {
+                    setPoints(prev => prev + (normalizedInput.length));
+                }
+
+                // Check for pangram
+                if(isPangram){
+                    toast.success("Našlx jste pangram!")
+                    setPoints(prev => prev + 7)
+                } else {
+                    toast.success("Správně!");
+                }
             } else {
                 toast.error("Špatné slovo.");
             }
@@ -146,6 +165,10 @@ export default function SpellingBeePage() {
             setInput('');
         }
     };
+
+    useEffect(() => {
+        console.log("Updated points:", points);
+    }, [points]);
 
     if (error) return <p className="text-red-500">{error}</p>;
     if (!letterSet) return <p>Loading...</p>;
