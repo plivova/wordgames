@@ -1,5 +1,7 @@
 // // Created by Kateřina Plívová on 23.06.2025.
 
+using System.Security.Cryptography;
+using System.Text;
 using MediatR;
 using Neo4j.Driver;
 
@@ -11,34 +13,34 @@ public class GetWordOfTheDayQueryHandler(IDriver neo4jDriver) : IRequestHandler<
 {
     public async Task<WordDto> Handle(GetWordOfTheDayQuery request, CancellationToken cancellationToken)
     {
-        var session = neo4jDriver.AsyncSession();
+        cancellationToken.ThrowIfCancellationRequested();
+        await using var session = neo4jDriver.AsyncSession();
 
-        try
-        {
-            var cypher = @"
-                MATCH (w:Word)
-                WHERE size(w.text) >= 4
-                WITH w, rand() AS r
-                RETURN w.id AS id, w.text AS text, w.pos AS partOfSpeech
-                ORDER BY r
-                LIMIT 1
-            ";
+        // Count eligible words
+        var countResult = await session.RunAsync("MATCH (w:Word) WHERE size(w.text) >= 4 RETURN count(w) AS cnt");
+        var countRecord = await countResult.SingleAsync();
+        var totalWords = countRecord["cnt"].As<long>();
 
-            var result = await session.RunAsync(cypher);
-            var record = await result.SingleAsync();
+        if (totalWords == 0)
+            throw new InvalidOperationException("No words found in the database.");
 
-            if (record == null) return null;
+        // Derive a deterministic offset from today's date
+        var dateString = DateTime.UtcNow.ToString("yyyy-MM-dd");
+        var hash = SHA256.HashData(Encoding.UTF8.GetBytes(dateString));
+        var offset = Math.Abs(BitConverter.ToInt64(hash, 0)) % totalWords;
 
-            return new WordDto
-            {
-                Id = record["id"].As<string>(),
-                Text = record["text"].As<string>(),
-                PartOfSpeech = record["partOfSpeech"]?.As<string>() ?? ""
-            };
-        }
-        finally
-        {
-            await session.CloseAsync();
-        }
+        var cypher = @"
+            MATCH (w:Word)
+            WHERE size(w.text) >= 4
+            RETURN w.id AS id, w.text AS text, w.pos AS partOfSpeech
+            ORDER BY w.id
+            SKIP $offset
+            LIMIT 1
+        ";
+
+        var result = await session.RunAsync(cypher, new { offset });
+        var records = await result.ToListAsync();
+
+        return WordDto.FromRecord(records[0]);
     }
 }

@@ -2,6 +2,8 @@
 
 using AutoMapper;
 using backend.Application.LetterSets.Queries;
+using backend.Application.LetterBoxedSets.Queries;
+using backend.Application.Words.Queries;
 using backend.Domain;
 
 namespace backend.Application.Common;
@@ -11,6 +13,7 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<LetterSet, LetterSetDto>();
-        // TODO: Add other mappings here
+        CreateMap<LetterBoxedSet, LetterBoxedSetDto>();
+        CreateMap<Word, WordDto>();
     }
 }

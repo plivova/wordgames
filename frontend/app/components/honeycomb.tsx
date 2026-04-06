@@ -40,14 +40,6 @@ export default function Honeycomb({ letters = [], onLetterClick }: HoneycombProp
                         />
                     );
                 })}
-            {/*    <style>*/}
-            {/*        {`*/}
-            {/*  .hex:hover polygon {*/}
-            {/*    fill: var(--color-primary);*/}
-            {/*    transition: fill 0.2s;*/}
-            {/*  }*/}
-            {/*`}*/}
-            {/*    </style>*/}
             </svg>
         </div>
     );

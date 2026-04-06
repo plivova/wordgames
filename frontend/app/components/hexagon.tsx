@@ -18,7 +18,15 @@ export default function Hexagon({ x, y, letter, onClick, isCenter }: HexagonProp
         return `${px},${py}`;
     }).join(' ');
     return (
-        <g onClick={onClick} className="hex" style={{ cursor: 'pointer' }}>
+        <g
+            onClick={onClick}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
+            className="hex"
+            style={{ cursor: 'pointer' }}
+            role="button"
+            tabIndex={0}
+            aria-label={letter}
+        >
             <polygon
                 points={points}
                 fill="var(--hex-fill)"

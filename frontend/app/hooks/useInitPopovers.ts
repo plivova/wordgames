@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 
-export function UseInitPopovers() {
+export function useInitPopovers() {
     const pathname = usePathname();
 
     useEffect(() => {
@@ -11,10 +11,8 @@ export function UseInitPopovers() {
             import('flowbite').then(({ initPopovers }) => {
                 initPopovers();
             });
-        }, 50); // slight delay to ensure the DOM is ready
+        }, 50);
 
         return () => clearTimeout(timeout);
     }, [pathname]);
-
-    return null;
 }

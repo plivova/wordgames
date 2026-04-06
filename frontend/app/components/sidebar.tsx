@@ -3,14 +3,14 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Trophy } from 'lucide-react';
+import { dict } from "@/app/lib/dictionary";
 
 export function Sidebar() {
-    const pathname = usePathname(); // Client Component hook that lets you read the current URL's pathname.
-
+    const pathname = usePathname();
 
     const links = [
-        { href: '/dashboard', label: 'Hlavní stránka', icon: Home },
-        { href: '/dashboard/scores', label: 'Výsledky', icon: Trophy },
+        { href: '/dashboard', label: dict.nav.dashboard, icon: Home },
+        { href: '/dashboard/scores', label: dict.nav.scores, icon: Trophy },
     ];
 
     return (
@@ -18,7 +18,7 @@ export function Sidebar() {
             <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
                     type="button"
                     className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-accentDark rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-primary dark:hover:bg-primary dark:focus:ring-primary">
-                <span className="sr-only">Menu</span>
+                <span className="sr-only">{dict.nav.menu}</span>
                 <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                      xmlns="http://www.w3.org/2000/svg">
                     <path clipRule="evenodd" fillRule="evenodd"
@@ -36,7 +36,7 @@ export function Sidebar() {
                             <span className="font-medium text-primary dark:text-primary text-2xl">SH</span>
                         </div>
                         <span
-                            className="self-center text-l font-semibold whitespace-nowrap dark:text-white">Slovní hry</span>
+                            className="self-center text-l font-semibold whitespace-nowrap dark:text-white">{dict.app.title}</span>
                     </div>
 
                     {links.map((link) => {

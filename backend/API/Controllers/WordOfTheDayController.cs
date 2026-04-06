@@ -11,9 +11,9 @@ namespace backend.API.Controllers;
 public class WordOfTheDayController(IMediator mediator) : ControllerBase
 {
     [HttpGet("word")]
-    public async Task<ActionResult<WordDto>> GetRandomWord()
+    public async Task<ActionResult<WordDto>> GetRandomWord(CancellationToken cancellationToken)
     {
-        var letterSet = await mediator.Send(new GetWordOfTheDayQuery());
+        var letterSet = await mediator.Send(new GetWordOfTheDayQuery(), cancellationToken);
         return Ok(letterSet);
     }
 }

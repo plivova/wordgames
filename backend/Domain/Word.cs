@@ -7,7 +7,7 @@ namespace backend.Domain;
 /// </summary>
 public class Word
 {
-    public string Id { get; set; }
+    public string Id { get; set; } = "";
     public string Text { get; set; } = "";
     public string PartOfSpeech { get; set; } = "";
 }

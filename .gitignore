@@ -570,3 +570,6 @@ sketch
 
 .env
 backend/.idea/.idea.backend.dir/.idea/GraphDatabaseSupport_DataSourcesState.xml
+
+# Scripts (local tooling, not finalized yet)
+scripts/

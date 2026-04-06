@@ -25,41 +25,27 @@ public class GetWordsQueryHandler : IRequestHandler<GetWordsQuery, List<WordDto>
 
     public async Task<List<WordDto>> Handle(GetWordsQuery request, CancellationToken cancellationToken)
     {
-        var session = _neo4jDriver.AsyncSession();
+        cancellationToken.ThrowIfCancellationRequested();
+        await using var session = _neo4jDriver.AsyncSession();
 
-        try
+        var words = new List<WordDto>();
+
+        const string cypher = @"
+            MATCH (w:Word)
+            WHERE ALL(c IN SPLIT(w.text, '') WHERE c IN $letters)
+              AND $centralLetter IN SPLIT(w.text, '')
+              AND size(w.text) >= 4
+            RETURN w.id AS id, w.text AS text, w.pos AS partOfSpeech
+        ";
+
+        var result = await session.RunAsync(cypher, new
         {
-            var words = new List<WordDto>();
+            letters = request.Letters.ToCharArray().Distinct().Select(c => c.ToString()).ToList(),
+            centralLetter = request.CentralLetter.ToString()
+        });
 
-            const string cypher = @"
-                MATCH (w:Word)
-                WHERE ALL(c IN SPLIT(w.text, '') WHERE c IN $letters)
-                  AND $centralLetter IN SPLIT(w.text, '')
-                  AND size(w.text) >= 4
-                RETURN w.id AS id, w.text AS text, w.pos AS partOfSpeech
-            ";
+        await result.ForEachAsync(record => words.Add(WordDto.FromRecord(record)));
 
-            var result = await session.RunAsync(cypher, new
-            {
-                letters = request.Letters.ToCharArray().Distinct().Select(c => c.ToString()).ToList(),
-                centralLetter = request.CentralLetter.ToString()
-            });
-
-            await result.ForEachAsync(record =>
-            {
-                words.Add(new WordDto
-                {
-                    Id = record["id"].As<string>(),
-                    Text = record["text"].As<string>(),
-                    PartOfSpeech = record["partOfSpeech"]?.As<string>() ?? ""
-                });
-            });
-
-            return words;
-        }
-        finally
-        {
-            await session.CloseAsync();
-        }
+        return words;
     }
 }

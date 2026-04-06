@@ -1,24 +1,6 @@
-// using backend.Domain;
-// using Microsoft.AspNetCore.Mvc;
-// using WordGames.Data;
-
 namespace backend.API.Controllers;
 
-//     [HttpGet("words")]
-//     public async Task<ActionResult<List<Word>>> GetWordsForSet([FromQuery] string letters, [FromQuery] char central)
-//     {
-//         try
-//         {
-//             var words = await neo4j.FindWordsForSet(letters, central);
-//             return Ok(words);
-//         }
-//         catch (Exception ex)
-//         {
-//             return StatusCode(500, ex.Message);
-//         }
-//     }
-// }
-
+using System.Text.RegularExpressions;
 using Application.Words.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -26,19 +8,28 @@ using Application.LetterSets.Queries;
 
 [ApiController]
 [Route("api/[controller]")]
-public class SpellingBeeController(IMediator mediator) : ControllerBase
+public partial class SpellingBeeController(IMediator mediator) : ControllerBase
 {
+    [GeneratedRegex(@"^[a-zA-ZáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]{2,12}$")]
+    private static partial Regex LettersPattern();
+
     [HttpGet("random-letter-set")]
-    public async Task<ActionResult<LetterSetDto>> GetRandomSet()
+    public async Task<ActionResult<LetterSetDto>> GetRandomSet(CancellationToken cancellationToken)
     {
-        var letterSet = await mediator.Send(new GetRandomLetterSetQuery());
+        var letterSet = await mediator.Send(new GetRandomLetterSetQuery(), cancellationToken);
         return Ok(letterSet);
     }
-    
+
     [HttpGet("{letters}/{centralLetter}")]
-    public async Task<ActionResult<List<WordDto>>> GetWords(string letters, char centralLetter)
+    public async Task<ActionResult<List<WordDto>>> GetWords(string letters, char centralLetter, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new GetWordsQuery(letters, centralLetter));
+        if (string.IsNullOrWhiteSpace(letters) || !LettersPattern().IsMatch(letters))
+            return BadRequest("Invalid letters parameter.");
+
+        if (!letters.Contains(centralLetter, StringComparison.OrdinalIgnoreCase))
+            return BadRequest("Central letter must be one of the provided letters.");
+
+        var result = await mediator.Send(new GetWordsQuery(letters, centralLetter), cancellationToken);
         return Ok(result);
     }
 }

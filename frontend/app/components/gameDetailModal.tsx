@@ -1,16 +1,18 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import Image from "next/image";
 import { X } from "lucide-react";
-import { UseGameDetail } from "@/app/hooks/useGameDetail";
+import { dict } from "@/app/lib/dictionary";
 
 type GameDetailModalProps = {
     isOpen: boolean;
     onClose: () => void;
+    description: string;
+    detail: string;
+    image: string;
 };
 
-export function GameDetailModal({isOpen, onClose}: GameDetailModalProps) {
-    const { description, detail, image } = UseGameDetail()
-
+export function GameDetailModal({ isOpen, onClose, description, detail, image }: GameDetailModalProps) {
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-10" onClose={onClose}>
@@ -26,7 +28,7 @@ export function GameDetailModal({isOpen, onClose}: GameDetailModalProps) {
                     <div className="fixed inset-0 bg-black/50"/>
                 </Transition.Child>
 
-                <div className="fixed inset-0 flex ml-64 p-6 items-center justify-center">
+                <div className="fixed inset-0 flex p-6 items-center justify-center">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-200"
@@ -48,9 +50,9 @@ export function GameDetailModal({isOpen, onClose}: GameDetailModalProps) {
                             </button>
 
                             <div>
-                                <h2 className="text-xl font-bold mb-2">🎲 Jak hrát?</h2>
+                                <h2 className="text-xl font-bold mb-2">{dict.gameInfo.howToPlay}</h2>
                                 <div className="flex justify-center items-center">
-                                    <img className="w-1/4 m-2" src={image || undefined} alt="game image"/>
+                                    {image && <Image className="w-1/4 m-2" src={image} alt="game image" width={150} height={150} />}
                                     <p className="ml-2">{description}</p>
                                 </div>
                                 <p>{detail}</p>

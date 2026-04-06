@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "./components/sidebar";
-import { UseInitPopovers } from "@/app/hooks/useInitPopovers";
+import { InitPopovers } from "@/app/components/initPopovers";
+import { SIDEBAR_WIDTH_CLASS } from "@/app/lib/constants";
 import { Toaster } from "react-hot-toast";
 
 
@@ -22,18 +23,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({children}: Readonly<{ children: React.ReactNode; }>) {
     return (
-        <html lang="en">
+        <html lang="cs">
         <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
         <div className="flex flex-col md:flex-row min-h-screen">
             <Sidebar />
-            <main className="flex-1 ml-64 p-4 md:p-6"> {/* Sidebar width + padding */}
+            <main className={`flex-1 ${SIDEBAR_WIDTH_CLASS} p-4 md:p-6`}>
                 {children}
                 <Toaster />
             </main>
         </div>
-        <UseInitPopovers />
+        <InitPopovers />
         </body>
         </html>
     );

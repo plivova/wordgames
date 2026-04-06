@@ -1,8 +1,9 @@
 'use client'
 
 import { GameDetailModal } from "@/app/components/gameDetailModal";
-import { UseGameDetail } from "@/app/hooks/useGameDetail";
-import { UseInitPopovers } from "@/app/hooks/useInitPopovers";
+import { useGameDetail } from "@/app/hooks/useGameDetail";
+import { useInitPopovers } from "@/app/hooks/useInitPopovers";
+import { dict } from "@/app/lib/dictionary";
 
 type GameInfoProps = {
     isModalOpen: boolean;
@@ -10,18 +11,14 @@ type GameInfoProps = {
 };
 
 export function GameInfo({ isModalOpen, setModalOpen }: GameInfoProps) {
-    const { title, description } = UseGameDetail()
+    const { title, description, detail, image } = useGameDetail();
 
-    UseInitPopovers();
-
-    const handleGameDetail = () => {
-        setModalOpen(true);
-    };
+    useInitPopovers();
 
     return (
         <div className="relative ml-4 mt-8">
             <div className="flex items-center text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-black dark:text-black">
-                <h1 className="">{title}</h1>
+                <h1>{title}</h1>
                 <button
                     data-popover-target="popover-description"
                     data-popover-placement="bottom"
@@ -41,7 +38,7 @@ export function GameInfo({ isModalOpen, setModalOpen }: GameInfoProps) {
                             d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
                         />
                     </svg>
-                    <span className="sr-only">Ukázat informace</span>
+                    <span className="sr-only">{dict.gameInfo.showInfo}</span>
                 </button>
             </div>
 
@@ -52,14 +49,15 @@ export function GameInfo({ isModalOpen, setModalOpen }: GameInfoProps) {
             >
                 <div className="space-y-2">
                     <h3 className="font-semibold text-gray-900 dark:text-gray-900">
-                        Pravidla hry
+                        {dict.gameInfo.rules}
                     </h3>
                     <p>{description}</p>
-                    <a
-                        onClick={handleGameDetail}
-                        className="flex items-center font-medium text-primary hover:text-accentDark hover:underline dark:text-primary dark:hover:text-accentDark"
+                    <button
+                        type="button"
+                        onClick={() => setModalOpen(true)}
+                        className="flex items-center font-medium text-primary hover:text-accentDark hover:underline dark:text-primary dark:hover:text-accentDark cursor-pointer"
                     >
-                        Více informací
+                        {dict.gameInfo.moreInfo}
                         <svg
                             className="ms-1.5 h-2 w-2 rtl:rotate-180"
                             xmlns="http://www.w3.org/2000/svg"
@@ -74,12 +72,17 @@ export function GameInfo({ isModalOpen, setModalOpen }: GameInfoProps) {
                                 d="m1 9 4-4-4-4"
                             />
                         </svg>
-                    </a>
+                    </button>
                 </div>
-                {isModalOpen && (
-                    <GameDetailModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
-                )}
             </div>
+
+            <GameDetailModal
+                isOpen={isModalOpen}
+                onClose={() => setModalOpen(false)}
+                description={description}
+                detail={detail}
+                image={image}
+            />
         </div>
     );
 }
