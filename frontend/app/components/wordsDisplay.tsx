@@ -13,8 +13,8 @@ export default function WordsDisplay({ words }: WordsDisplayProps) {
                 <p className="text-gray-400 italic">{dict.wordsDisplay.empty}</p>
             ) : (
                 <ul className="space-y-1 text-gray-800 text-base">
-                    {words.sort().map((word, index) => (
-                        <li key={index} className="truncate">{word}</li>
+                    {[...words].sort().map((word) => (
+                        <li key={word} className="truncate">{word}</li>
                     ))}
                 </ul>
             )}

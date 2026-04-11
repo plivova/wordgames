@@ -13,4 +13,10 @@ export const gameDetails: Record<string, { title: string; description: string, d
         detail: dict.letterBoxed.detail,
         image: '/letter-boxed.png',
     },
+    '/crossclimb': {
+        title: dict.crossclimb.title,
+        description: dict.crossclimb.description,
+        detail: dict.crossclimb.detail,
+        image: '/crossclimb.png',
+    },
 };

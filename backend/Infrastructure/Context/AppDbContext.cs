@@ -9,6 +9,7 @@ public class AppDbContext : DbContext
 
     public DbSet<LetterSet> LetterSets { get; set; }
     public DbSet<LetterBoxedSet> LetterBoxedSets { get; set; }
+    public DbSet<CrossclimbSet> CrossclimbSets { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,6 +29,24 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Side2).HasColumnName("side2");
             entity.Property(e => e.Side3).HasColumnName("side3");
             entity.Property(e => e.Side4).HasColumnName("side4");
+        });
+
+        modelBuilder.Entity<CrossclimbSet>(entity =>
+        {
+            entity.ToTable("crossclimb_sets");
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.WordLength).HasColumnName("word_length");
+            entity.Property(e => e.LadderSize).HasColumnName("ladder_size");
+            entity.Property(e => e.Word1).HasColumnName("word1");
+            entity.Property(e => e.Word2).HasColumnName("word2");
+            entity.Property(e => e.Word3).HasColumnName("word3");
+            entity.Property(e => e.Word4).HasColumnName("word4");
+            entity.Property(e => e.Word5).HasColumnName("word5");
+            entity.Property(e => e.Clue1).HasColumnName("clue1");
+            entity.Property(e => e.Clue2).HasColumnName("clue2");
+            entity.Property(e => e.Clue3).HasColumnName("clue3");
+            entity.Property(e => e.Clue4).HasColumnName("clue4");
+            entity.Property(e => e.Clue5).HasColumnName("clue5");
         });
     }
 }

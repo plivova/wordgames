@@ -57,6 +57,12 @@ export const getLetterBoxedWordList = async (
     }));
 };
 
+// Fetch a random crossclimb puzzle
+export const getRandomCrossclimbSet = async () => {
+    const res = await apiInstance.get(`/Crossclimb/random-set`);
+    return res.data;
+};
+
 // Fetch words from SpellingBee API based on letter set and central letter
 export const getWordListForLetterSet = async (
     letters: string,

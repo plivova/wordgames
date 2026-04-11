@@ -2,6 +2,7 @@
 
 using AutoMapper;
 using backend.Application.LetterSets.Queries;
+using backend.Application.CrossclimbSets.Queries;
 using backend.Application.LetterBoxedSets.Queries;
 using backend.Application.Words.Queries;
 using backend.Domain;
@@ -15,5 +16,6 @@ public class MappingProfile : Profile
         CreateMap<LetterSet, LetterSetDto>();
         CreateMap<LetterBoxedSet, LetterBoxedSetDto>();
         CreateMap<Word, WordDto>();
+        CreateMap<CrossclimbSet, CrossclimbSetDto>();
     }
 }

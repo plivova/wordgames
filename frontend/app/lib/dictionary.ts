@@ -34,7 +34,7 @@ export const dict = {
 
     // Spelling Bee
     spellingBee: {
-        title: "🐝 Spelling Bee",
+        title: "🐝 Včelička",
         description:
             "Je zadáno sedm písmen, z nichž jedno je středové (zvýrazněno barevně). " +
             "Utvářejte slova, která mají alespoň 4 písmena a obsahují středové písmeno. " +
@@ -63,7 +63,7 @@ export const dict = {
 
     // Letterboxed
     letterBoxed: {
-        title: "📦 Letterboxed",
+        title: "📦 Krabička",
         description:
             "Je zadáno dvanáct písmen na čtverci. Utvářejte z nich slova tak, abyste postupně použilx všechna písmena. " +
             "Slovo musí začínat koncovým písmenem slova předchozího. " +
@@ -85,6 +85,31 @@ export const dict = {
         wordCount: "slov",
         winHeading: "Gratulujeme!",
         winMessage: "Použilx jste všechna písmena!",
+        newGame: "Nová hra",
+    },
+
+    // Crossclimb
+    crossclimb: {
+        title: "🪜 Žebříček",
+        description:
+            "Uhádněte pět českých slov stejné délky podle nápověd. " +
+            "Poté je přetažením seřaďte tak, aby každé sousední slovo se lišilo právě o jedno písmeno.",
+        detail:
+            "Ke každému slovu je zobrazena křížovková nápověda. " +
+            "Nejprve uhádněte všechna slova a poté je přetažením seřaďte do správného pořadí. " +
+            "Správné pořadí tvoří žebříček, kde se každé sousední slovo liší právě o jedno písmeno. " +
+            "Změna diakritiky (např. a→á) se počítá jako jedna změna.",
+        errorLoading: "Nepodařilo se načíst hádanku.",
+        solveClues: "Uhádněte slova",
+        arrangeWords: "Seřaďte slova přetažením",
+        clueLabel: "Nápověda",
+        submitAnswer: "Potvrdit",
+        correctAnswer: "Správně!",
+        wrongAnswer: "Špatná odpověď.",
+        submitOrder: "Potvrdit pořadí",
+        wrongOrder: "Pořadí není správné. Zkuste znovu.",
+        winHeading: "Gratulujeme!",
+        winMessage: "Sestavilx jste správný žebříček!",
         newGame: "Nová hra",
     },
 
