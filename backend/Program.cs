@@ -1,7 +1,7 @@
 using backend.Application.Common; // for AutoMapper profiles
 using Microsoft.EntityFrameworkCore;
 using DotNetEnv;
-using Neo4j.Driver; // for loading .env
+using Neo4j.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +26,9 @@ builder.Services.AddSingleton<IDriver>(_ =>
         AuthTokens.Basic(neo4jUser, neo4jPassword)
     )
 );
+
+// Register Wordle game store
+builder.Services.AddSingleton<backend.Application.Words.Queries.WordleGameStore>();
 
 // Register MediatR handlers from your application assembly
 builder.Services.AddMediatR(cfg => 

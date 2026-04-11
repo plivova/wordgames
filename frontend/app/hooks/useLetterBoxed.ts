@@ -13,7 +13,6 @@ import {
     addLettersToUsed,
     parseSidesFromApi,
     isValidCzechLetter,
-    debugLogSolutions,
 } from "@/app/services/letterBoxedService";
 import toast from "react-hot-toast";
 import { dict } from "@/app/lib/dictionary";
@@ -54,7 +53,6 @@ export function useLetterBoxed() {
             const sides = letterSet.sides.map(s => s.join('').toLowerCase());
             const words = await getLetterBoxedWordList(sides[0], sides[1], sides[2], sides[3]);
             setWordListForSet(words);
-            debugLogSolutions(words, letterSet.sides);
         } catch (err) {
             console.error("Failed to fetch word list:", err);
             toast.error(dict.letterBoxed.errorWordList);

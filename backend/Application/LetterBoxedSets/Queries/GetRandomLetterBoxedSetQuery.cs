@@ -26,7 +26,7 @@ public class GetRandomLetterBoxedSetQueryHandler : IRequestHandler<GetRandomLett
             .FirstOrDefaultAsync(cancellationToken);
 
         if (entity == null)
-            throw new Exception("No letter boxed sets found.");
+            throw new InvalidOperationException("No letter boxed sets found.");
 
         return _mapper.Map<LetterBoxedSetDto>(entity);
     }

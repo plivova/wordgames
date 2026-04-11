@@ -27,7 +27,7 @@ public class GetRandomLetterSetQueryHandler : IRequestHandler<GetRandomLetterSet
             .FirstOrDefaultAsync(cancellationToken);
 
         if (letterSetEntity == null)
-            throw new Exception("No letter sets found.");
+            throw new InvalidOperationException("No letter sets found.");
 
         return _mapper.Map<LetterSetDto>(letterSetEntity);
     }

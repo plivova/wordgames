@@ -57,6 +57,26 @@ export const getLetterBoxedWordList = async (
     }));
 };
 
+// Start a new Wordle game, returns gameId
+export const startWordleGame = async (): Promise<string> => {
+    const res = await apiInstance.get(`/Wordle/new-game`);
+    return res.data.gameId;
+};
+
+// Submit a Wordle guess, returns evaluation from server
+export const submitWordleGuess = async (gameId: string, guess: string) => {
+    const res = await apiInstance.post(`/Wordle/guess`, {
+        gameId,
+        guess: guess.toLowerCase(),
+    });
+    return res.data as {
+        results: string[];
+        isCorrect: boolean;
+        isValidWord: boolean;
+        targetWord: string | null;
+    };
+};
+
 // Fetch a random crossclimb puzzle
 export const getRandomCrossclimbSet = async () => {
     const res = await apiInstance.get(`/Crossclimb/random-set`);

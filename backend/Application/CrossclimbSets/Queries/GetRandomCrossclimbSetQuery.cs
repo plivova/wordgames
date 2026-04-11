@@ -26,7 +26,7 @@ public class GetRandomCrossclimbSetQueryHandler : IRequestHandler<GetRandomCross
             .FirstOrDefaultAsync(cancellationToken);
 
         if (entity == null)
-            throw new Exception("No crossclimb sets found.");
+            throw new InvalidOperationException("No crossclimb sets found.");
 
         return _mapper.Map<CrossclimbSetDto>(entity);
     }

@@ -13,6 +13,12 @@ export const gameDetails: Record<string, { title: string; description: string, d
         detail: dict.letterBoxed.detail,
         image: '/letter-boxed.png',
     },
+    '/wordle': {
+        title: dict.wordle.title,
+        description: dict.wordle.description,
+        detail: dict.wordle.detail,
+        image: '/wordle.png',
+    },
     '/crossclimb': {
         title: dict.crossclimb.title,
         description: dict.crossclimb.description,

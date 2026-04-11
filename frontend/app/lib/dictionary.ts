@@ -113,6 +113,28 @@ export const dict = {
         newGame: "Nová hra",
     },
 
+    // Wordle (Pětka)
+    wordle: {
+        title: "🟪 Pětka",
+        description:
+            "Uhádněte pětipísmenné české slovo na šest pokusů. " +
+            "Po každém pokusu se písmena obarví: fialová = správné místo, žlutá = špatné místo, šedá = písmeno ve slově není.",
+        detail:
+            "Zadejte pětipísmenné české slovo a stiskněte Enter. " +
+            "Fialová barva znamená, že písmeno je na správném místě. " +
+            "Žlutá barva znamená, že písmeno je ve slově, ale na jiném místě. " +
+            "Šedá barva znamená, že písmeno ve slově není. " +
+            "Máte šest pokusů na uhádnutí slova.",
+        errorLoading: "Nepodařilo se načíst slovo.",
+        tooShort: "Slovo musí mít 5 písmen.",
+        notInDict: "Slovo není ve slovníku.",
+        alreadyGuessed: "Toto slovo jste už zkusilx.",
+        winHeading: "Výborně!",
+        winMessage: "Uhádlx jste slovo!",
+        lost: "Správné slovo bylo: ",
+        newGame: "Nová hra",
+    },
+
     // Progress bar ranks
     ranks: [
         "Začátečník",

@@ -1,11 +1,9 @@
 import { WordViewData } from "@/app/models/WordViewData";
+import { isValidCzechLetter } from "@/app/services/wordUtils";
 
-const CZECH_LETTER_REGEX = /^[A-ZÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ]$/;
+export { isValidCzechLetter, isWordValid, isAlreadyFound } from "@/app/services/wordUtils";
+
 const MAX_INPUT_LENGTH = 12;
-
-export function isValidCzechLetter(char: string): boolean {
-    return CZECH_LETTER_REGEX.test(char.toUpperCase());
-}
 
 export function sanitizeInput(raw: string): string {
     let result = '';
@@ -45,15 +43,6 @@ export function calculateMaxPoints(wordList: WordViewData[], allowedLetters: str
 export function isPangram(word: string, allowedLetters: string[]): boolean {
     const upper = word.toUpperCase();
     return allowedLetters.every(l => upper.includes(l));
-}
-
-export function isWordValid(word: string, wordList: WordViewData[]): boolean {
-    const normalized = word.toLowerCase();
-    return wordList.some(w => w.text.toLowerCase() === normalized);
-}
-
-export function isAlreadyFound(word: string, foundWords: string[]): boolean {
-    return foundWords.includes(word.toLowerCase());
 }
 
 export function scrambleLetters(letters: string, centralLetter: string): string {
