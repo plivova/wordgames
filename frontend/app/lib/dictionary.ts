@@ -8,7 +8,6 @@ export const dict = {
     // Navigation
     nav: {
         dashboard: "Hlavní stránka",
-        scores: "Výsledky",
         menu: "Menu",
     },
 
@@ -82,7 +81,8 @@ export const dict = {
         submitTitle: "Potvrdit",
         deleteTitle: "Smazat",
         restartTitle: "Restart",
-        wordCount: "slov",
+        wordCount: (n: number) =>
+            n === 1 ? "slovo" : n >= 2 && n <= 4 ? "slova" : "slov",
         winHeading: "Gratulujeme!",
         winMessage: "Použilx jste všechna písmena!",
         newGame: "Nová hra",
@@ -148,8 +148,4 @@ export const dict = {
         "Perfektní skóre!",
     ],
 
-    // Scores page
-    scores: {
-        title: "Výsledky",
-    },
 } as const;

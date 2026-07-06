@@ -51,18 +51,14 @@ public class EvaluateWordleGuessQueryHandler(IDriver neo4jDriver, WordleGameStor
         var remaining = new char[targetChars.Length];
         Array.Copy(targetChars, remaining, targetChars.Length);
 
-        // First pass: correct
-        for (int i = 0; i < guess.Length; i++)
+        for (var i = 0; i < guess.Length; i++)
         {
-            if (guess[i] == targetChars[i])
-            {
-                results[i] = "correct";
-                remaining[i] = '\0';
-            }
+            if (guess[i] != targetChars[i]) continue;
+            results[i] = "correct";
+            remaining[i] = '\0';
         }
 
-        // Second pass: present
-        for (int i = 0; i < guess.Length; i++)
+        for (var i = 0; i < guess.Length; i++)
         {
             if (results[i] == "correct") continue;
             var idx = Array.IndexOf(remaining, guess[i]);

@@ -1,1 +1,1 @@
-export const SIDEBAR_WIDTH_CLASS = "ml-64";
+export const SIDEBAR_WIDTH_CLASS = "sm:ml-64";

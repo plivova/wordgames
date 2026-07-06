@@ -3,8 +3,8 @@
 import React from "react";
 import { dict } from "@/app/lib/dictionary";
 
-const rankPcts = [0, 0.02, 0.05, 0.08, 0.15, 0.25, 0.40, 0.70, 1.0];
-const ranks = dict.ranks.map((label, i) => ({ label, pct: rankPcts[i] }));
+const rankPts = [0, 0.02, 0.05, 0.08, 0.15, 0.25, 0.40, 0.70, 1.0];
+const ranks = dict.ranks.map((label, i) => ({ label, pct: rankPts[i] }));
 
 type ProgressBarProps = {
     points: number;

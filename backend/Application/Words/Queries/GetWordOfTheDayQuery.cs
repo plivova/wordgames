@@ -39,7 +39,10 @@ public class GetWordOfTheDayQueryHandler(IDriver neo4jDriver) : IRequestHandler<
         ";
 
         var result = await session.RunAsync(cypher, new { offset });
-        var records = await result.ToListAsync();
+        var records = await result.ToListAsync(cancellationToken: cancellationToken);
+
+        if (records.Count == 0)
+            throw new InvalidOperationException("No word found at the computed offset.");
 
         return WordDto.FromRecord(records[0]);
     }

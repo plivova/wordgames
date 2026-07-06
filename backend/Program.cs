@@ -9,10 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 Env.Load("../.env");
 
 // Get info from env vars
-var mysqlConn = Environment.GetEnvironmentVariable("MYSQL_CONNECTION");
-var neo4jUri = Environment.GetEnvironmentVariable("NEO4J_URI");
-var neo4jUser = Environment.GetEnvironmentVariable("NEO4J_USER");
-var neo4jPassword = Environment.GetEnvironmentVariable("NEO4J_PASSWORD");
+var mysqlConn = Environment.GetEnvironmentVariable("MYSQL_CONNECTION")
+    ?? throw new InvalidOperationException("MYSQL_CONNECTION environment variable is not set.");
+var neo4jUri = Environment.GetEnvironmentVariable("NEO4J_URI")
+    ?? throw new InvalidOperationException("NEO4J_URI environment variable is not set.");
+var neo4jUser = Environment.GetEnvironmentVariable("NEO4J_USER")
+    ?? throw new InvalidOperationException("NEO4J_USER environment variable is not set.");
+var neo4jPassword = Environment.GetEnvironmentVariable("NEO4J_PASSWORD")
+    ?? throw new InvalidOperationException("NEO4J_PASSWORD environment variable is not set.");
 
 // Register DbContext with MySQL connection
 var serverVersion = ServerVersion.AutoDetect(mysqlConn);
@@ -44,7 +48,7 @@ builder.Services.AddSwaggerGen();
 
 // CORS policy — read allowed origins from env var, fall back to localhost for dev
 var corsOrigins = Environment.GetEnvironmentVariable("CORS_ORIGINS")?.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-    ?? ["http://localhost:3000", "https://localhost:3000"];
+    ?? ["http://localhost:3000", "https://localhost:3000", "http://localhost:3001", "https://localhost:3001"];
 
 builder.Services.AddCors(options =>
 {
@@ -63,8 +67,11 @@ var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
 var neo4jDriver = app.Services.GetRequiredService<IDriver>();
 lifetime.ApplicationStopping.Register(() => neo4jDriver?.Dispose());
 
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseCors("AllowFrontend");
 

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Trophy } from 'lucide-react';
+import { Home } from 'lucide-react';
 import { dict } from "@/app/lib/dictionary";
 
 export function Sidebar() {
@@ -10,7 +10,6 @@ export function Sidebar() {
 
     const links = [
         { href: '/dashboard', label: dict.nav.dashboard, icon: Home },
-        { href: '/dashboard/scores', label: dict.nav.scores, icon: Trophy },
     ];
 
     return (

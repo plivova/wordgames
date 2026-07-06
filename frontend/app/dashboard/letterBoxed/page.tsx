@@ -77,7 +77,7 @@ export default function LetterBoxedPage() {
 
                     {/* Word count and found words list */}
                     <div className="text-center text-gray-600">
-                        {foundWords.length} {dict.letterBoxed.wordCount}
+                        {foundWords.length} {dict.letterBoxed.wordCount(foundWords.length)}
                     </div>
                     {foundWords.length > 0 && (
                         <div className="text-center space-y-1">
@@ -132,7 +132,7 @@ export default function LetterBoxedPage() {
                 onClose={() => setShowWinModal(false)}
                 heading={dict.letterBoxed.winHeading}
                 message={dict.letterBoxed.winMessage}
-                stats={`${foundWords.length} ${dict.letterBoxed.wordCount}`}
+                stats={`${foundWords.length} ${dict.letterBoxed.wordCount(foundWords.length)}`}
                 buttonLabel={dict.letterBoxed.newGame}
                 onNewGame={startNewGame}
             />

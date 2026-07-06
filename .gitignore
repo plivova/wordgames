@@ -569,6 +569,7 @@ sketch
 # End of https://www.toptal.com/developers/gitignore/api/nextjs,react,csharp,jetbrains
 
 .env
+.claude/
 backend/.idea/.idea.backend.dir/.idea/GraphDatabaseSupport_DataSourcesState.xml
 
 # Scripts (local tooling, not finalized yet)

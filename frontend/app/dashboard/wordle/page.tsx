@@ -12,6 +12,7 @@ import { MAX_GUESSES } from "@/app/services/wordleService";
 
 export default function WordlePage() {
     const {
+        gameId,
         guesses,
         currentInput,
         gameOver,
@@ -29,6 +30,8 @@ export default function WordlePage() {
     } = useWordle();
 
     const { inputRef, handleGameAreaClick } = useFocusInput(isGameDetailModalOpen);
+
+    if (!gameId) return <p>{dict.app.loading}</p>;
 
     return (
         <div className="p-4" onClick={handleGameAreaClick}>

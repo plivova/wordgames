@@ -10,7 +10,6 @@ import {
     isWordValid,
     isAlreadyFound,
     scrambleLetters as scrambleLettersUtil,
-    sanitizeInput,
     canAddLetter,
 } from "@/app/services/spellingBeeService";
 import toast from "react-hot-toast";
@@ -88,8 +87,8 @@ export function useSpellingBee() {
         e.preventDefault();
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInput(sanitizeInput(e.target.value));
+    const handleChange = () => {
+        // Handled by beforeInput
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -105,7 +104,7 @@ export function useSpellingBee() {
 
     const submitWord = () => {
         const normalizedInput = input.toLowerCase().trim();
-        if (!normalizedInput || !wordListForSet) return;
+        if (!normalizedInput || !wordListForSet || wordListForSet.length === 0) return;
 
         if (isAlreadyFound(normalizedInput, foundWords)) {
             toast(dict.spellingBee.alreadyFound, { icon: "🟡" });
@@ -141,11 +140,17 @@ export function useSpellingBee() {
 
     const startNewGame = async () => {
         setShowWinModal(false);
-        setInput('');
-        setFoundWords([]);
-        setPoints(0);
-        setWordListForSet(null);
-        await fetchLetters();
+        try {
+            const data = await getRandomLetterSet();
+            setLetterSet(data);
+            setInput('');
+            setFoundWords([]);
+            setPoints(0);
+            setWordListForSet(null);
+        } catch (err) {
+            console.error("Failed to start new game:", err);
+            toast.error(dict.spellingBee.errorLetterSet);
+        }
     };
 
     return {

@@ -83,6 +83,8 @@ export function useWordle() {
                 const revealed = evaluation.targetWord?.toUpperCase() ?? '???';
                 toast(dict.wordle.lost + revealed, { icon: "😔", duration: 5000 });
             }
+        } catch {
+            toast.error(dict.wordle.errorLoading);
         } finally {
             setIsSubmitting(false);
         }
@@ -111,6 +113,7 @@ export function useWordle() {
     };
 
     return {
+        gameId,
         guesses,
         currentInput,
         gameOver,

@@ -13,7 +13,7 @@ public class WordleGameStore
         {
             Word = word.ToLower(),
             MaxGuesses = maxGuesses,
-            GuessCount = 0,
+            _guessCount = 0,
             CreatedAt = DateTime.UtcNow
         };
         CleanupOldGames();
@@ -29,8 +29,7 @@ public class WordleGameStore
     {
         if (_games.TryGetValue(gameId, out var session))
         {
-            session.GuessCount++;
-            return session.GuessCount;
+            return Interlocked.Increment(ref session._guessCount);
         }
         return -1;
     }
@@ -38,7 +37,7 @@ public class WordleGameStore
     public bool IsGameOver(string gameId)
     {
         if (_games.TryGetValue(gameId, out var session))
-            return session.GuessCount >= session.MaxGuesses;
+            return Volatile.Read(ref session._guessCount) >= session.MaxGuesses;
         return true;
     }
 
@@ -63,7 +62,7 @@ public class WordleGameStore
     {
         public string Word { get; set; } = "";
         public int MaxGuesses { get; set; }
-        public int GuessCount { get; set; }
+        public int _guessCount;
         public DateTime CreatedAt { get; set; }
     }
 }

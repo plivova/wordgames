@@ -8,8 +8,9 @@ export function useInitPopovers() {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
-            import('flowbite').then(({ initPopovers }) => {
+            import('flowbite').then(({ initPopovers, initDrawers }) => {
                 initPopovers();
+                initDrawers();
             });
         }, 50);
 

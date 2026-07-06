@@ -15,8 +15,6 @@ public class GetRandomWordQuery : IRequest<WordDto>
 
 public class GetRandomWordQueryHandler(IDriver neo4jDriver) : IRequestHandler<GetRandomWordQuery, WordDto>
 {
-    private static readonly Random Rng = new();
-
     public async Task<WordDto> Handle(GetRandomWordQuery request, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -31,7 +29,7 @@ public class GetRandomWordQueryHandler(IDriver neo4jDriver) : IRequestHandler<Ge
         if (totalWords == 0)
             throw new InvalidOperationException("No words found for the given length.");
 
-        var offset = Rng.NextInt64(totalWords);
+        var offset = Random.Shared.NextInt64(totalWords);
 
         var cypher = @"
             MATCH (w:Word)
@@ -43,7 +41,10 @@ public class GetRandomWordQueryHandler(IDriver neo4jDriver) : IRequestHandler<Ge
         ";
 
         var result = await session.RunAsync(cypher, new { len = request.WordLength, offset });
-        var records = await result.ToListAsync();
+        var records = await result.ToListAsync(cancellationToken: cancellationToken);
+
+        if (records.Count == 0)
+            throw new InvalidOperationException("No word found at the computed offset.");
 
         return WordDto.FromRecord(records[0]);
     }

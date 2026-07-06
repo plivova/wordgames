@@ -169,11 +169,20 @@ export function useLetterBoxed() {
 
     const startNewGame = async () => {
         setShowWinModal(false);
-        setInput('');
-        setFoundWords([]);
-        setUsedLetters(new Set());
-        setWordListForSet(null);
-        await fetchLetters();
+        try {
+            const data = await getRandomLetterBoxedSet();
+            setLetterSet({
+                id: data.id,
+                sides: parseSidesFromApi(data),
+            });
+            setInput('');
+            setFoundWords([]);
+            setUsedLetters(new Set());
+            setWordListForSet(null);
+        } catch (err) {
+            console.error("Failed to start new game:", err);
+            toast.error(dict.letterBoxed.errorLetterSet);
+        }
     };
 
     return {

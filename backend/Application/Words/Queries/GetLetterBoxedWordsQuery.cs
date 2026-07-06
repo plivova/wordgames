@@ -35,7 +35,7 @@ public class GetLetterBoxedWordsQueryHandler : IRequestHandler<GetLetterBoxedWor
         // Build side lookup: letter -> side index
         var sides = new[] { request.Side1, request.Side2, request.Side3, request.Side4 };
         var letterToSide = new Dictionary<char, int>();
-        for (int s = 0; s < 4; s++)
+        for (var s = 0; s < 4; s++)
         {
             foreach (var c in sides[s])
             {
@@ -60,22 +60,13 @@ public class GetLetterBoxedWordsQueryHandler : IRequestHandler<GetLetterBoxedWor
 
         await result.ForEachAsync(record => candidates.Add(WordDto.FromRecord(record)));
 
-        // Filter: consecutive letters must be on different sides
-        var validWords = new List<WordDto>();
-        foreach (var word in candidates)
-        {
-            if (IsValidLetterBoxedWord(word.Text, letterToSide))
-            {
-                validWords.Add(word);
-            }
-        }
-
-        return validWords;
+        // Consecutive letters must be on different sides
+        return candidates.Where(word => IsValidLetterBoxedWord(word.Text, letterToSide)).ToList();
     }
 
     private static bool IsValidLetterBoxedWord(string text, Dictionary<char, int> letterToSide)
     {
-        for (int i = 1; i < text.Length; i++)
+        for (var i = 1; i < text.Length; i++)
         {
             if (!letterToSide.TryGetValue(text[i - 1], out var prevSide) ||
                 !letterToSide.TryGetValue(text[i], out var currSide))
