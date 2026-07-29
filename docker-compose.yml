@@ -8,7 +8,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./scripts/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+      - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
     healthcheck:
       test: ["CMD", "mysql", "-u", "root", "-prootpass", "-e", "SELECT 1"]
       interval: 5s
