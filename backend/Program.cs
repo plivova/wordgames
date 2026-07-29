@@ -62,6 +62,13 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// Ensure MySQL tables exist
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.EnsureCreated();
+}
+
 // Dispose Neo4j driver on application shutdown
 var lifetime = app.Services.GetRequiredService<IHostApplicationLifetime>();
 var neo4jDriver = app.Services.GetRequiredService<IDriver>();
