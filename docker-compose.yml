@@ -1,6 +1,6 @@
 services:
   mysql:
-    image: mysql:8
+    build: ./mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpass}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-word_games}
@@ -8,22 +8,20 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./seed.sql:/docker-entrypoint-initdb.d/seed.sql
     healthcheck:
-      test: ["CMD", "mysql", "-u", "root", "-prootpass", "-e", "SELECT 1"]
+      test: ["CMD", "mysql", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-rootpass}", "-e", "SELECT 1"]
       interval: 5s
       timeout: 5s
       retries: 20
       start_period: 30s
 
   neo4j:
-    image: neo4j:5
+    build: ./neo4j
     environment:
       NEO4J_AUTH: neo4j/password
       NEO4J_server_directories_import: /import
     volumes:
       - neo4j_data:/data
-      - ./neo4j/import:/import:ro
     healthcheck:
       test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "password", "RETURN 1"]
       interval: 5s
@@ -32,16 +30,13 @@ services:
       start_period: 30s
 
   neo4j-seed:
-    image: neo4j:5
+    build: ./neo4j
     depends_on:
       neo4j:
         condition: service_healthy
     environment:
       NEO4J_USER: neo4j
       NEO4J_PASSWORD: password
-    volumes:
-      - ./neo4j/seed.sh:/seed.sh
-      - ./neo4j/import:/import:ro
     entrypoint: ["/bin/bash", "/seed.sh"]
     network_mode: "service:neo4j"
 
