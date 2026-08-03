@@ -26,17 +26,12 @@ Web application with a collection of word games inspired by popular games from N
    cd wordgames
    ```
 
-2. Create a `.env` file from the template:
-   ```bash
-   cp .env.example .env
-   ```
-
-3. Run the app:
+2. Run the app:
    ```bash
    docker compose up --build
    ```
 
-4. Open this URL in your browser:
+3. Open this URL in your browser:
    - **Frontend:** http://localhost:3000
 
 ### Stopping the project
@@ -57,7 +52,7 @@ docker compose down -v
 - .NET 8 SDK
 - Node.js 20+
 - MySQL 8
-- Access to the Neo4j database
+- Neo4j 5 (or use the Docker instance: `docker compose up neo4j`)
 
 ### Backend
 
@@ -75,7 +70,11 @@ npm install
 npm run dev
 ```
 
-The application expects a `.env` file in the project's root directory with variables defined in `.env.example`.
+The application expects a `.env` file in the project's root directory with the following variables:
+- `MYSQL_CONNECTION` — MySQL connection string
+- `NEO4J_URI` — Neo4j bolt URI (e.g. `bolt://localhost:7687`)
+- `NEO4J_USER` — Neo4j username
+- `NEO4J_PASSWORD` — Neo4j password
 
 ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -103,17 +102,12 @@ Webová aplikace s kolekci slovních her inspirovaných populárními hrami z Ne
    cd wordgames
    ```
 
-2. Vytvořte soubor `.env` z šablony:
-   ```bash
-   cp .env.example .env
-   ```
-
-3. Spusťte aplikaci:
+2. Spusťte aplikaci:
    ```bash
    docker compose up --build
    ```
 
-4. Otevřete prohlížeč na adrese:
+3. Otevřete prohlížeč na adrese:
    - **Frontend:** http://localhost:3000
 
 ### Zastavení
@@ -134,7 +128,7 @@ docker compose down -v
 - .NET 8 SDK
 - Node.js 20+
 - MySQL 8
-- Přístup k Neo4j databázi
+- Neo4j 5 (nebo použijte Docker instanci: `docker compose up neo4j`)
 
 ### Backend
 
@@ -152,4 +146,8 @@ npm install
 npm run dev
 ```
 
-Aplikace očekává soubor `.env` v kořenovém adresáři projektu s proměnnými definovanými v `.env.example`.
+Aplikace očekává soubor `.env` v kořenovém adresáři projektu s následujícími proměnnými:
+- `MYSQL_CONNECTION` — připojovací řetězec k MySQL
+- `NEO4J_URI` — Neo4j bolt URI (např. `bolt://localhost:7687`)
+- `NEO4J_USER` — Neo4j uživatelské jméno
+- `NEO4J_PASSWORD` — Neo4j heslo
