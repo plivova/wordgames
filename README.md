@@ -1,5 +1,7 @@
 # Word games / slovní hry
 
+**Live demo:** http://158.194.80.92:3000/
+
 # ENGLISH VERSION
 
 # Word Games
