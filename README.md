@@ -38,7 +38,6 @@ Web application with a collection of word games inspired by popular games from N
 
 4. Open this URL in your browser:
    - **Frontend:** http://localhost:3000
-   - **Backend API:** http://localhost:5238/api
 
 ### Stopping the project
 
@@ -116,7 +115,6 @@ Webová aplikace s kolekci slovních her inspirovaných populárními hrami z Ne
 
 4. Otevřete prohlížeč na adrese:
    - **Frontend:** http://localhost:3000
-   - **Backend API:** http://localhost:5238/api
 
 ### Zastavení
 
