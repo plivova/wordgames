@@ -16,7 +16,7 @@ export function Sidebar() {
         <div>
             <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
                     type="button"
-                    className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-accentDark rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-primary dark:hover:bg-primary dark:focus:ring-primary">
+                    className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-primary rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
                 <span className="sr-only">{dict.nav.menu}</span>
                 <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                      xmlns="http://www.w3.org/2000/svg">
@@ -27,15 +27,15 @@ export function Sidebar() {
             <aside id="logo-sidebar"
                    className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
                    aria-label="Sidebar">
-                <div className="h-full px-3 py-4 overflow-y-auto bg-primary dark:primary">
+                <div className="h-full px-3 py-4 overflow-y-auto bg-primary">
 
                     <div className="flex items-center ps-2.5 mb-5">
                         <div
-                            className="mr-2 relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-white p-5">
-                            <span className="font-medium text-primary dark:text-primary text-2xl">SH</span>
+                            className="mr-2 relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-white rounded-full p-5">
+                            <span className="font-medium text-primary text-2xl">SH</span>
                         </div>
                         <span
-                            className="self-center text-l font-semibold whitespace-nowrap dark:text-white">{dict.app.title}</span>
+                            className="self-center text-l font-semibold whitespace-nowrap text-white">{dict.app.title}</span>
                     </div>
 
                     {links.map((link) => {
@@ -49,8 +49,8 @@ export function Sidebar() {
                                     href={link.href}
                                     className={`flex items-center space-x-2 px-4 py-2 mb-1 rounded-full text-sm font-medium transition-colors duration-200
                                     ${isActive
-                                        ? 'bg-blue-100 text-primary dark:bg-accentDark dark:text-white'
-                                        : 'text-gray-700 hover:bg-gray-100 dark:text-white dark:hover:bg-secondary'
+                                        ? 'bg-accentDark text-white'
+                                        : 'text-white hover:bg-secondary'
                                     }`}
                                 >
                                     <LinkIcon className="w-5 h-5"/>

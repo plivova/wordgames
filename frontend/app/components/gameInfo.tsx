@@ -17,7 +17,7 @@ export function GameInfo({ isModalOpen, setModalOpen }: GameInfoProps) {
 
     return (
         <div className="relative ml-4 mt-8">
-            <div className="flex items-center text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-black dark:text-black">
+            <div className="flex items-center text-xl sm:text-2xl md:text-3xl font-bold mb-4 text-black">
                 <h1>{title}</h1>
                 <button
                     data-popover-target="popover-description"
@@ -45,17 +45,17 @@ export function GameInfo({ isModalOpen, setModalOpen }: GameInfoProps) {
             <div data-popover
                 id="popover-description"
                 role="tooltip"
-                className="absolute z-10 invisible inline-block w-72 rounded-lg border border-gray-200 bg-white p-3 text-sm text-white opacity-0 shadow-xs transition-opacity duration-300 dark:border-light dark:bg-light dark:text-gray-700"
+                className="absolute z-10 invisible inline-block w-72 rounded-lg border border-secondary bg-light p-3 text-sm text-gray-700 opacity-0 shadow-xs transition-opacity duration-300"
             >
                 <div className="space-y-2">
-                    <h3 className="font-semibold text-gray-900 dark:text-gray-900">
+                    <h3 className="font-semibold text-gray-900">
                         {dict.gameInfo.rules}
                     </h3>
                     <p>{description}</p>
                     <button
                         type="button"
                         onClick={() => setModalOpen(true)}
-                        className="flex items-center font-medium text-primary hover:text-accentDark hover:underline dark:text-primary dark:hover:text-accentDark cursor-pointer"
+                        className="flex items-center font-medium text-primary hover:text-accentDark hover:underline cursor-pointer"
                     >
                         {dict.gameInfo.moreInfo}
                         <svg

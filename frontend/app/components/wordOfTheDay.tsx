@@ -27,12 +27,12 @@ export function WordOfTheDay() {
 
     return (
         <div className="flex justify-center items-center">
-            <div className="w-3/4 p-3 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-secondary dark:border-secondary">
+            <div className="w-3/4 p-3 bg-secondary border border-secondary rounded-lg shadow-sm">
                 <div className="flex justify-between items-center m-2">
-                    <div className="text-4xl font-bold tracking-tight dark:text-white">
+                    <div className="text-4xl font-bold tracking-tight text-white">
                         {dict.app.title}
                     </div>
-                    <div className="text-right dark:text-white">
+                    <div className="text-right text-white">
                         <div className="text-sm">
                             {dict.wordOfTheDay.heading} ({date.getDate()}.{date.getMonth() + 1}.{date.getFullYear()})
                         </div>
