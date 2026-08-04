@@ -47,15 +47,15 @@ export const dict = {
         startTyping: "Začněte psát",
         errorLetterSet: "Nepodařilo se načíst sadu písmen.",
         errorWordList: "Nepodařilo se načíst seznam slov.",
-        alreadyFound: "Toto slovo jste už našlx.",
-        pangram: "Našlx jste pangram!",
+        alreadyFound: "Toto slovo už bylo nalezeno.",
+        pangram: "Pangram nalezen!",
         correct: "Správně!",
         wrong: "Špatné slovo.",
         deleteTitle: "Smazat písmeno",
         shuffleTitle: "Zamíchat písmena",
         submitTitle: "Potvrdit",
         winHeading: "Gratulujeme!",
-        winMessage: "Našlx jste všechna slova!",
+        winMessage: "Všechna slova nalezena!",
         winPoints: "bodů",
         newGame: "Nová hra",
     },
@@ -64,14 +64,14 @@ export const dict = {
     letterBoxed: {
         title: "📦 Krabička",
         description:
-            "Je zadáno dvanáct písmen na čtverci. Utvářejte z nich slova tak, abyste postupně použilx všechna písmena. " +
+            "Je zadáno dvanáct písmen na čtverci. Utvářejte z nich slova tak, aby byla postupně použita všechna písmena." +
             "Slovo musí začínat koncovým písmenem slova předchozího. " +
             "Dvě po sobě jdoucí písmena nemohou náležet stejné straně čtverce. ",
         detail:
             "Slovník neobsahuje vulgární a obskurní slova ani vlastní jména. ",
         errorLetterSet: "Nepodařilo se načíst sadu písmen.",
         errorWordList: "Nepodařilo se načíst seznam slov.",
-        alreadyFound: "Toto slovo jste už našlx.",
+        alreadyFound: "Toto slovo už bylo nalezeno.",
         correct: "Správně!",
         wrong: "Špatné slovo.",
         notInList: "Slovo není v seznamu.",
@@ -84,7 +84,7 @@ export const dict = {
         wordCount: (n: number) =>
             n === 1 ? "slovo" : n >= 2 && n <= 4 ? "slova" : "slov",
         winHeading: "Gratulujeme!",
-        winMessage: "Použilx jste všechna písmena!",
+        winMessage: "Všechna písmena použita!",
         newGame: "Nová hra",
     },
 
@@ -109,7 +109,7 @@ export const dict = {
         submitOrder: "Potvrdit pořadí",
         wrongOrder: "Pořadí není správné. Zkuste znovu.",
         winHeading: "Gratulujeme!",
-        winMessage: "Sestavilx jste správný žebříček!",
+        winMessage: "Žebříček sestaven!",
         newGame: "Nová hra",
     },
 
@@ -128,9 +128,9 @@ export const dict = {
         errorLoading: "Nepodařilo se načíst slovo.",
         tooShort: "Slovo musí mít 5 písmen.",
         notInDict: "Slovo není ve slovníku.",
-        alreadyGuessed: "Toto slovo jste už zkusilx.",
+        alreadyGuessed: "Toto slovo už bylo zadáno.",
         winHeading: "Výborně!",
-        winMessage: "Uhádlx jste slovo!",
+        winMessage: "Slovo uhodnuto!",
         lost: "Správné slovo bylo: ",
         newGame: "Nová hra",
     },

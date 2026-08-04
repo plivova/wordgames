@@ -134,7 +134,7 @@ export function useLetterBoxed() {
 
         if (normalizedInput.length < 3) {
             toast(dict.letterBoxed.tooShort, { icon: "🟡" });
-            setInput('');
+            setInput(lastLetter ?? '');
             return;
         }
 
@@ -157,7 +157,7 @@ export function useLetterBoxed() {
             }
         } else {
             toast.error(dict.letterBoxed.notInList);
-            setInput('');
+            setInput(lastLetter ?? '');
         }
     };
 
