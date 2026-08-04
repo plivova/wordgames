@@ -6,13 +6,13 @@
 
 # Word Games
 
-Web application with a collection of word games inspired by popular games from New York Times: Spelling Bee, Letter Boxed, Crossclimb a Wordle.
+Web application with a collection of word games inspired by popular games from the New York Times: Spelling Bee, Letter Boxed, Crossclimb and Wordle.
 
 ## Technologies
 
 - **Frontend:** Next.js (React), Tailwind CSS
 - **Backend:** ASP.NET Core 8, MediatR, Entity Framework Core
-- **Databáze:** MySQL 8 (puzzle sets), Neo4j (dictionary)
+- **Database:** MySQL 8 (puzzle sets), Neo4j (dictionary)
 
 ## Running the app with Docker
 
@@ -24,7 +24,7 @@ Web application with a collection of word games inspired by popular games from N
 
 1. Clone the repository:
    ```bash
-   git clone <url-repozitáře>
+   git clone https://github.com/plivova/wordgames
    cd wordgames
    ```
 
@@ -82,7 +82,7 @@ The application expects a `.env` file in the project's root directory with the f
 
 # ČESKÁ VERZE
 
-Webová aplikace s kolekci slovních her inspirovaných populárními hrami z New York Times: Spelling Bee, Letter Boxed, Crossclimb a Wordle.
+Webová aplikace s kolekcí slovních her inspirovaných populárními hrami z New York Times: Spelling Bee, Letter Boxed, Crossclimb a Wordle.
 
 ## Technologie
 
@@ -100,7 +100,7 @@ Webová aplikace s kolekci slovních her inspirovaných populárními hrami z Ne
 
 1. Naklonujte repozitář:
    ```bash
-   git clone <url-repozitáře>
+   git clone https://github.com/plivova/wordgames
    cd wordgames
    ```
 
