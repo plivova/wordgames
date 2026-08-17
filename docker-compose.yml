@@ -4,8 +4,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpass}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-word_games}
-    ports:
-      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -55,7 +53,7 @@ services:
       NEO4J_PASSWORD: "password"
       CORS_ORIGINS: "http://localhost:3000"
     ports:
-      - "5238:5238"
+      - "127.0.0.1:5238:5238"
 
   frontend:
     build:
@@ -65,7 +63,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
 
 volumes:
   mysql_data:
