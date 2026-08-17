@@ -1,6 +1,6 @@
 # Word games / slovní hry
 
-**Live demo:** http://158.194.80.92:3000/
+**Live demo:** [http://158.194.80.92:3000/](http://158.194.92.81/)
 
 # ENGLISH VERSION
 
